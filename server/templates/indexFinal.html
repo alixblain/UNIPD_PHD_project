@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Title of the web page -->
+    <title>MQTT Dashboard</title>
+
+    <!-- Internal CSS styles -->
+    <style>
+        /* Basic styling for the body */
+        body {
+            background-color: black; /* Background color */
+            color: white; /* Text color */
+            font-family: Arial, sans-serif; /* Font family */
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+            text-align: center; /* Center text alignment */
+        }
+        /* Styling for the content area */
+        #content {
+            position: absolute; /* Positioning */
+            top: 50%; /* Center vertically */
+            left: 50%; /* Center horizontally */
+            transform: translate(-50%, -50%); /* Adjust the position */
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            padding: 20px; /* Padding around content */
+            border: 2px solid white; /* Border */
+            border-radius: 10px; /* Rounded corners */
+        }
+        /* Styling for the clock display */
+        #clock {
+            font-size: 24px; /* Font size */
+            font-weight: bold; /* Font weight */
+        }
+        /* Styling for the MQTT data section */
+        #mqtt-data {
+            font-size: 20px; /* Font size */
+        }
+        /* Styling for the image container */
+        #image-container {
+            margin-top: 20px; /* Top margin */
+        }
+        /* Styling for images */
+        img {
+            max-width: 100%; /* Maximum width */
+            height: auto; /* Automatic height */
+        }
+    </style>
+</head>
+<body>
+    <!-- Main content area -->
+    <div id="content">
+        <!-- Clock display -->
+        <div id="clock"></div>
+
+        <!-- Display for MQTT received data -->
+        <div class="data-display" style="text-align: left;">
+            <h2>Received Data:</h2>
+            <ul style="padding-left: 100px;">
+                <li>Temperature  : {{ data['T'] }} </li>
+                <li>Humidity     : {{ data['H'] }} </li>
+                <li>Pressure     : {{ data['P'] }} </li>
+            </ul>
+        </div>
+
+        <!-- Container for the received image -->
+        <div id="image-container">
+            <img src="/static/received_image.png" alt="MQTT Image">
+        </div>
+
+        <!-- Display for movement detection -->
+        <div class="mouv-display" style="text-align: left;">
+            <h2>Movement Detected:</h2>
+            <ul style="padding-left: 100px;">
+                {% if mouv %}
+                    <li id="movementStatus">Movement detected...</li>
+                {% else %}
+                    <li id="movementStatus">No movement detected...</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- JavaScript for updating the clock and refreshing the page -->
+    <script>
+        // Function to update the clock
+        function updateClock() {
+            var now = new Date(); // Get current date and time
+            var day = now.toDateString(); // Convert to date string
+            var time = now.toLocaleTimeString(); // Convert to time string
+            document.getElementById('clock').innerHTML = day + ' ' + time; // Update the clock display
+        }
+
+        // Function to refresh the page
+        function refreshPage() {
+            location.reload(); // Reload the current page
+        }
+
+        // Set intervals for clock update and page refresh
+        setInterval(updateClock, 1000); // Update the clock every second
+        setInterval(refreshPage, 5000); // Refresh the page every 7 seconds
+    </script>
+</body>
+</html>
